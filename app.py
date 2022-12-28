@@ -4,9 +4,11 @@ import tkinter as tk
 root = tk.Tk()
 root.title("YouTube Downloader")
 root.resizable(False, False)
+# Set the width to 200 pixels and the height to 100 pixels
+root.geometry("300x100")
 
 # Create a frame and pack it into the main window
-frame = tk.Frame(root)
+frame = tk.Frame(root, padx=10, pady=10)
 frame.pack()
 
 # Create a text input and a button, and pack them into the frame
