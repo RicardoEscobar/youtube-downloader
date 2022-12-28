@@ -3,6 +3,7 @@ import tkinter as tk
 # Create the main window
 root = tk.Tk()
 root.title("YouTube Downloader")
+root.resizable(False, False)
 
 # Create a frame and pack it into the main window
 frame = tk.Frame(root)
