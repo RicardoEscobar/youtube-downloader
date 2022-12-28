@@ -1,4 +1,5 @@
 import tkinter as tk
+from download_music import download_music
 
 # Create the main window
 root = tk.Tk()
@@ -14,7 +15,8 @@ frame.pack()
 # Create a text input and a button, and pack them into the frame
 youtube_url_input = tk.Entry(frame)
 youtube_url_input.pack(side='left')
-download_button = tk.Button(frame, text='Download')
+download_button = tk.Button(frame, text='Download', command=lambda: download_music(
+    youtube_url_input.get()))  # Retrieve the text from the text_input widget)
 download_button.pack(side='left')
 
 # Run the Tkinter event loop
