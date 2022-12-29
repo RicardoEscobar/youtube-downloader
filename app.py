@@ -1,6 +1,7 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 from download_music import download_music
+import windows
 
 # Create the main window
 root = tk.Tk()
@@ -23,10 +24,11 @@ frame_progress.pack()
 
 # Create a text input and a button, and pack them into the frame
 youtube_url_input = tk.Entry(frame_audio_download)
-youtube_url_input.pack(side='left')
+# Set the sticky attribute to 'ew' to make the text input expand horizontally
+youtube_url_input.pack(side='left', fill='x', expand=True)
 download_button = tk.Button(frame_audio_download, text='Download', command=lambda: download_music(
     youtube_url_input.get()))  # Retrieve the text from the text_input widget)
-download_button.pack(side='left')
+download_button.pack(side='right')
 
 # Create a progress bar and pack it into the frame
 progress_bar = ttk.Progressbar(frame_progress, orient='horizontal', length=300)
