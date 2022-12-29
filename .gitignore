@@ -276,3 +276,6 @@ $RECYCLE.BIN/
 # YouTube downloads
 *.mp3
 *.mp4
+
+# ChatGPT
+chatgpt.*
