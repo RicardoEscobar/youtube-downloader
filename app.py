@@ -2,6 +2,7 @@ import tkinter as tk
 import tkinter.ttk as ttk
 from download_audio import download_audio
 from download_video import download_video
+from download_prime import download_prime
 import windows
 
 # Create the main window
@@ -35,10 +36,13 @@ download_audio_button = tk.Button(frame_audio_video_download, text='Download Aud
                                   command=lambda: download_audio(youtube_url_input.get()))
 download_video_button = tk.Button(frame_audio_video_download, text='Download Video',
                                   command=lambda: download_video(youtube_url_input.get()))
+download_prime_button = tk.Button(frame_audio_video_download, text='Download Prime',
+                                  command=lambda: download_prime(youtube_url_input.get()))
 
 # Add download buttons to frame_audio_video_download
 download_audio_button.pack(side='right')
 download_video_button.pack(side='right')
+download_prime_button.pack(side='right')
 
 # Create a progress bar and pack it into the frame
 progress_bar = ttk.Progressbar(frame_progress, orient='horizontal', length=300)
