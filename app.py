@@ -34,6 +34,8 @@ download_audio_button = tk.Button(frame_audio_video_download, text='Download Aud
     youtube_url_input.get()))  # Retrieve the text from the text_input widget)
 download_video_button = tk.Button(frame_audio_video_download, text='Download Video', command=lambda: download_video(
     youtube_url_input.get()))  # Retrieve the text from the text_input widget)
+
+# Add download buttons to frame_audio_video_download
 download_audio_button.pack(side='right')
 download_video_button.pack(side='right')
 
