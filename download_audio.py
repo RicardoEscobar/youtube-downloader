@@ -1,20 +1,16 @@
-from pathlib import Path
-import pytube
 from time_it import time_it
+from download_highest_quality_audio import download_highest_quality_audio
+from convert_to_mp3 import convert_to_mp3
 
 
 @time_it
 def download_audio(url: str) -> None:
-    # Create a YouTube object using the URL
-    yt = pytube.YouTube(url)
+    audio = download_highest_quality_audio(url)
+    output = audio.with_name(audio.stem + ' (prime)' + '.mp3')
+    convert_to_mp3(audio, output)
 
-    # Get the highest quality audio stream available
-    audio_stream = yt.streams.filter(only_audio=True).first()
-
-    # Save the audio stream to a file
-    output_file = Path(audio_stream.default_filename).with_suffix('.mp3')
-    print(output_file)
-    audio_stream.download(filename=output_file)
+    # clean up
+    audio.unlink()
 
 
 if __name__ == '__main__':
