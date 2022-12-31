@@ -278,4 +278,4 @@ $RECYCLE.BIN/
 *.mp4
 
 # ChatGPT
-chatgpt.*
+chatgpt*.*
