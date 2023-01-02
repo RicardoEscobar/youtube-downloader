@@ -12,6 +12,16 @@ root.title("YouTube Downloader")
 # Set the width to 300 pixels and the height to 100 pixels
 # root.geometry("300x100")
 
+# Create a int variable to store the progress bar percentage value
+progress_bar_variable = tk.IntVar()
+
+# Create a string variable to store the progress bar description text
+progress_bar_label_variable = tk.StringVar()
+
+# Initialize variables
+progress_bar_variable.initialize(0)
+progress_bar_label_variable.initialize('Progress %')
+
 # Create a frame and pack it into the main window
 frame = tk.Frame(root, padx=10, pady=10, bg='red')
 frame.pack(expand=True, fill='both')
@@ -33,11 +43,15 @@ youtube_url_input.pack(side='left', fill='x', expand=True)
 # Make download buttons for video and audio
 # lambda: Retrieve the text from the text_input widget to run download_audio function
 download_audio_button = tk.Button(frame_audio_video_download, text='Download Audio',
-                                  command=lambda: download_audio(youtube_url_input.get()))
+                                  command=lambda: download_audio(url=youtube_url_input.get()))
 download_video_button = tk.Button(frame_audio_video_download, text='Download Video',
-                                  command=lambda: download_video(youtube_url_input.get()))
+                                  command=lambda: download_video(
+                                      url=youtube_url_input.get(),
+                                      progress_bar_variable=progress_bar_variable,
+                                      progress_bar=progress_bar)
+                                  )
 download_prime_button = tk.Button(frame_audio_video_download, text='Download Prime',
-                                  command=lambda: download_prime(youtube_url_input.get()))
+                                  command=lambda: download_prime(url=youtube_url_input.get()))
 
 # Add download buttons to frame_audio_video_download
 download_audio_button.pack(side='right')
@@ -45,8 +59,14 @@ download_video_button.pack(side='right')
 download_prime_button.pack(side='right')
 
 # Create a progress bar and pack it into the frame
-progress_bar = ttk.Progressbar(frame_progress, orient='horizontal', length=300)
+progress_bar = ttk.Progressbar(
+    frame_progress,
+    orient='horizontal',
+    length=300,
+    variable=progress_bar_variable
+)
 progress_bar.pack(side='left', fill='x', expand=True)
+
 
 # Run the Tkinter event loop
 root.mainloop()
