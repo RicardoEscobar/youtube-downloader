@@ -5,7 +5,6 @@ import tkinter.ttk as ttk
 
 # Create a function to update the progress bar
 def update_progress_bar(stream: pytube.Stream,
-                        chunk,
                         bytes_remaining,
                         progress_bar_variable: tk.IntVar = None,
                         progress_bar: ttk.Progressbar = None):
