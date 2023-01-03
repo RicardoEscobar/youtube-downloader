@@ -3,7 +3,10 @@ import tkinter.ttk as ttk
 from download_audio import download_audio
 from download_video import download_video
 from download_prime import download_prime
-import windows
+from windows import windows_dpi_awareness
+
+# Set dpi Awareness on windows 10
+windows_dpi_awareness()
 
 # Create the main window
 root = tk.Tk()
