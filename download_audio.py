@@ -1,11 +1,14 @@
 from time_it import time_it
+import tkinter as tk
+import tkinter.ttk as ttk
 from download_highest_quality_audio import download_highest_quality_audio
 from convert_to_mp3 import convert_to_mp3
 
 
 @time_it
-def download_audio(url: str) -> None:
-    audio = download_highest_quality_audio(url)
+def download_audio(url: str, progress_bar_variable: tk.IntVar = None, progress_bar: ttk.Progressbar = None) -> None:
+    audio = download_highest_quality_audio(
+        url, progress_bar_variable=progress_bar_variable, progress_bar=progress_bar)
     output = audio.with_name(audio.stem + ' (prime)' + '.mp3')
     convert_to_mp3(audio, output)
 
