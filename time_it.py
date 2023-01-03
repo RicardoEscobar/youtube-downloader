@@ -6,6 +6,7 @@ def time_it(func):
         start = time.perf_counter()
         result = func(*args, **kwargs)
         end = time.perf_counter()
-        print(f"{func.__name__} took {end - start:.2f} seconds")
+        seconds = end - start
+        print(f"{func.__name__} took {seconds:.2f} seconds")
         return result
     return wrapper
