@@ -16,11 +16,12 @@ def download_video(url: str, progress_bar_variable: tk.IntVar = None, progress_b
         on_progress_callback=lambda stream, chunk, bytes_remaining:
         # Lambda used to pass the progress_bar_variable argument to update_progress_bar function
         update_progress_bar(stream=stream,
-                            chunk=chunk,
                             bytes_remaining=bytes_remaining,
                             progress_bar_variable=progress_bar_variable,
                             progress_bar=progress_bar
-                            )
+                            ),
+        on_complete_callback=lambda stream, file_handle:
+        progress_bar_variable.initialize(0)
     )
 
     # Get the list of available streams
