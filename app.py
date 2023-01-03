@@ -46,7 +46,10 @@ youtube_url_input.pack(side='left', fill='x', expand=True)
 # Make download buttons for video and audio
 # lambda: Retrieve the text from the text_input widget to run download_audio function
 download_audio_button = tk.Button(frame_audio_video_download, text='Download Audio',
-                                  command=lambda: download_audio(url=youtube_url_input.get()))
+                                  command=lambda: download_audio(
+                                      url=youtube_url_input.get(),
+                                      progress_bar_variable=progress_bar_variable,
+                                      progress_bar=progress_bar))
 download_video_button = tk.Button(frame_audio_video_download, text='Download Video',
                                   command=lambda: download_video(
                                       url=youtube_url_input.get(),
