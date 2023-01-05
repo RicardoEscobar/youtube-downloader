@@ -7,17 +7,31 @@ from convert_to_mp3 import convert_to_mp3
 
 @time_it
 def download_audio(url: str, progress_bar_variable: tk.IntVar = None, progress_bar: ttk.Progressbar = None) -> None:
-    audio = download_highest_quality_audio(
-        url, progress_bar_variable=progress_bar_variable, progress_bar=progress_bar)
-    output = audio.with_name(audio.stem + ' (prime audio)' + '.mp3')
+    """Downloads audio from a YouTube url as MP3 file.
 
-    # Convert downloaded audio file into mp3 file
-    convert_to_mp3(audio, output)
+    Args:
+        url (str): The url to the YouTube video.
+        progress_bar_variable (tkinter.IntVar, Optional): Variable for completion percentage.
+        progress_bar (ttk.Progressbar, Optional): Progress bar to be used to display progress or activity.
+
+    Returns:
+        None
+    """
+    # Downloads the highest quality audio from YouTube, returns it's file path as 'input_file'.
+    input_file = download_highest_quality_audio(
+        url, progress_bar_variable=progress_bar_variable, progress_bar=progress_bar)
+
+    # Create a file path for the output file, based on the input_file path.
+    output_file = input_file.with_stem(
+        input_file.stem + ' (HQ audio)')
+
+    # Convert downloaded audio file into mp3 file.
+    # convert_to_mp3(input_file, output_file)
 
     # clean up
-    audio.unlink()
+    input_file.unlink()
 
 
 if __name__ == '__main__':
-    # Replace this with the URL of the YouTube video you want to download
+    # Replace this with the URL of the YouTube video you want to download.
     download_audio("https://youtu.be/qpCNaRkIh2E")
