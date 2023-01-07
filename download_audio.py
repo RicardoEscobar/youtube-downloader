@@ -1,8 +1,9 @@
-from time_it import time_it
+import threading
 import tkinter as tk
 import tkinter.ttk as ttk
 from download_highest_quality_audio import download_highest_quality_audio
 from convert_to_mp3 import convert_to_mp3
+from time_it import time_it
 
 
 @time_it
@@ -17,19 +18,19 @@ def download_audio(url: str, progress_bar_variable: tk.IntVar = None, progress_b
     Returns:
         None
     """
-    # Downloads the highest quality audio from YouTube, returns it's file path as 'input_file'.
-    input_file = download_highest_quality_audio(
-        url, progress_bar_variable=progress_bar_variable, progress_bar=progress_bar)
+    # Run the download_highest_quality_audio function in a separate thread
+    thread = threading.Thread(target=download_highest_quality_audio, args=(
+        url, progress_bar_variable, progress_bar))
+    thread.start()
 
-    # Create a file path for the output file, based on the input_file path.
-    output_file = input_file.with_stem(
-        input_file.stem + ' (HQ audio)')
+    # Wait for the thread to finish
+    thread.join()
 
     # Convert downloaded audio file into mp3 file.
     # convert_to_mp3(input_file, output_file)
 
     # clean up
-    input_file.unlink()
+    # input_file.unlink()
 
 
 if __name__ == '__main__':

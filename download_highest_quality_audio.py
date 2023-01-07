@@ -1,3 +1,6 @@
+import threading
+import queue
+from queue import Queue
 from pathlib import Path
 import tkinter as tk
 import tkinter.ttk as ttk
@@ -8,25 +11,44 @@ from complete_progress_bar import complete_progress_bar
 
 
 @time_it
-def download_highest_quality_audio(url: str, progress_bar_variable: tk.IntVar = None, progress_bar: ttk.Progressbar = None) -> Path:
+def download_highest_quality_audio(url: str, progress_bar_variable: tk.IntVar = None, progress_bar: ttk.Progressbar = None, progress_queue: queue.Queue = None) -> Path:
     """Download the highest quality audio of a YouTube video"""
     # Create a YouTube object using the URL
+
     yt = pytube.YouTube(
         url=url,
         on_progress_callback=lambda stream, chunk, bytes_remaining:
-        # Lambda used to pass the progress_bar_variable argument to update_progress_bar function
-        update_progress_bar(stream=stream,
-                            bytes_remaining=bytes_remaining,
-                            progress_bar_variable=progress_bar_variable,
-                            progress_bar=progress_bar
-                            ),
+            update_progress_bar(
+                stream=stream,
+                bytes_remaining=bytes_remaining,
+                progress_bar_variable=progress_bar_variable,
+                progress_bar=progress_bar),
         on_complete_callback=lambda stream, file_handle:
         complete_progress_bar(
-            stream=stream,
-            file_handle=file_handle,
-            progress_bar_variable=progress_bar_variable,
-            progress_bar=progress_bar)
+                stream=stream,
+                file_handle=file_handle,
+                progress_bar_variable=progress_bar_variable,
+                progress_bar=progress_bar
+            )
+        progress_queue.put_nowait((stream, file_handle))
     )
+
+    # yt = pytube.YouTube(
+    #     url=url,
+    #     on_progress_callback=lambda stream, chunk, bytes_remaining:
+    #     # Lambda used to pass the progress_bar_variable argument to update_progress_bar function
+    #     update_progress_bar(stream=stream,
+    #                         bytes_remaining=bytes_remaining,
+    #                         progress_bar_variable=progress_bar_variable,
+    #                         progress_bar=progress_bar
+    #                         ),
+    #     on_complete_callback=lambda stream, file_handle:
+    #     complete_progress_bar(
+    #         stream=stream,
+    #         file_handle=file_handle,
+    #         progress_bar_variable=progress_bar_variable,
+    #         progress_bar=progress_bar)
+    # )
 
     # Get the highest quality audio stream
     audio_stream = yt.streams.get_by_itag(yt.streams.filter(
@@ -34,10 +56,16 @@ def download_highest_quality_audio(url: str, progress_bar_variable: tk.IntVar = 
 
     # Save the audio stream to a file
     output_file = Path(audio_stream.default_filename)
+
+    # Add 'HQ audio' tag to the file name, to avoid accidental override.
+    output_file = output_file.with_stem(output_file.stem + ' (HQ audio)')
+
     print(output_file)
     audio_stream.download(filename=output_file)
 
-    # Return a path to the output file
+    # Set the input_file attribute of the current thread object
+    threading.current_thread().output_file = output_file
+
     return output_file
 
 
