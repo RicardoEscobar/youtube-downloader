@@ -6,7 +6,7 @@ from time_it import time_it
 @time_it
 def download_video(url: str) -> None:
     # Create a YouTube object using the URL
-    yt = pytube.YouTube(url)
+    yt = pytube.YouTube(url, use_oauth=True, allow_oauth_cache=True)
 
     # Get the list of available streams
     streams = yt.streams.filter(progressive=True)
