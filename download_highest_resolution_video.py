@@ -7,7 +7,7 @@ from time_it import time_it
 def download_highest_resolution_video(url: str) -> Path:
     """Download the highest resolution DASH stream of a YouTube video"""
     # Create a YouTube object using the URL
-    yt = pytube.YouTube(url)
+    yt = pytube.YouTube(url, use_oauth=True, allow_oauth_cache=True)
 
     # Get the highest resolution DASH stream
     dash_stream = yt.streams.get_by_itag(yt.streams.filter(
